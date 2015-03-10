@@ -1,0 +1,11 @@
+github.com/agl/ed25519               d2b94fd789ea21d12fac1a4443dd3a3f79cda72c
+github.com/BurntSushi/toml           3883ac1ce943878302255f538fce319d23226223
+github.com/conformal/btcutil/base58  40ba1daf690afbd356066e36c47ba0e4d071ddb0
+github.com/jessevdk/go-flags         1679536dcc895411a9f5848d9a0250be7856448c
+github.com/juju/loggo                dc8e19f7c70a62a59c69c40f85b8df09ff20742c
+github.com/lib/pq                    835d5eb08da4541f26181e6958d7400da769e44b
+github.com/pebbe/zmq4                e68cf30b3e77fc66eee7f5e33af638b976ffaba2
+github.com/stretchr/testify          ae37dedcaae6fce497569786a8694aa3daa97abf
+github.com/vds/oops                  3e439e652bab85024a8b6965f5de7319d8a7b62e
+golang.org/x/crypto/ripemd160        280be005b3a662119e76768fe9d91171c1142511
+gopkg.in/validator.v2                8e445b9dc14ab1a1a78cc1f712df991307173ee6
