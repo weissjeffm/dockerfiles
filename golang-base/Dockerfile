@@ -2,14 +2,10 @@ FROM dockerfile/ubuntu
 
 MAINTAINER Filip Gospodinov "filip@monetas.net"
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends software-properties-common && \
-    add-apt-repository ppa:monetas/opentxs && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends libzmq3-dev pkg-config && \
-    apt-get autoremove
+ADD install.sh ./
+RUN sh install.sh
 
-# use custom GOPATH such that it does not conlfict with GOPATHs that
+# use custom GOPATH such that it does not conflict with GOPATHs that
 # live inside the host's $HOME which may be bind mounted into docker
 ENV GOPATH /opt/go
 ENV GOROOT /opt/go_dist/go
