@@ -2,8 +2,11 @@ FROM dockerfile/ubuntu
 
 MAINTAINER Filip Gospodinov "filip@monetas.net"
 
+ADD postgres ./postgres
 ADD install.sh ./
 RUN sh install.sh
+
+ADD run_services.sh /opt/
 
 # use custom GOPATH such that it does not conflict with GOPATHs that
 # live inside the host's $HOME which may be bind mounted into docker
