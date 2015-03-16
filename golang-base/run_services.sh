@@ -9,4 +9,5 @@ chown -R root:ssl-cert /etc/ssl/private/
 chmod -R 0750 /etc/ssl/private; 
 
 ### Start services.
-service postgresql start
+service supervisor start
+
