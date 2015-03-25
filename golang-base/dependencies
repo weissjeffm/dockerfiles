@@ -10,3 +10,4 @@ github.com/stretchr/objx             cbeaeb16a013161a98496fad62933b1d21786672
 github.com/vds/oops                  3e439e652bab85024a8b6965f5de7319d8a7b62e
 golang.org/x/crypto/ripemd160        280be005b3a662119e76768fe9d91171c1142511
 gopkg.in/validator.v2                8e445b9dc14ab1a1a78cc1f712df991307173ee6
+github.com/rcrowley/go-metrics       dee209f2455f101a5e4e593dea94872d2c62d85d

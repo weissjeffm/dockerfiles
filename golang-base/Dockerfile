@@ -20,4 +20,12 @@ RUN while read dep sha1; do \
         go get "$dep" && cd "$GOPATH/src/$dep" && git checkout "$sha1"; \
     done < dependencies
 
+
+# InfluxDB and Grafana configuration
+# from https://github.com/StackPointCloud/docker-influxdb
+ADD metrics/config.js /opt/grafana/config.js
+ADD metrics/nginx.conf /etc/nginx/nginx.conf
+ADD metrics/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD metrics/config.toml /opt/influxdb/current/config.toml
+
 CMD ["bash"]
