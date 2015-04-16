@@ -1,5 +1,12 @@
 -- Setup ran by the notary_test user. Setup schema etc.
 
+CREATE TABLE IF NOT EXISTS configuration (
+       id text PRIMARY KEY,
+       configuration text
+);
+
+INSERT INTO configuration (id, configuration) VALUES ('notary_configuration', '{"host":"127.0.0.1", "port":8123}');
+
 CREATE TABLE IF NOT EXISTS key_value (key bytea PRIMARY KEY, value bytea);
 
 -- Taken from example 40-2
