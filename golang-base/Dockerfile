@@ -19,7 +19,7 @@ RUN mkdir /opt/go_dist && tar -x -C /opt/go_dist -f ./go1.4.2.linux-amd64.tar.gz
 RUN while read dep sha1; do \
         go get "$dep" && cd "$GOPATH/src/$dep" && git checkout "$sha1"; \
     done < dependencies
-
+RUN cd $GOPATH/src/github.com/golang/lint/golint && go install
 
 # InfluxDB and Grafana configuration
 # from https://github.com/StackPointCloud/docker-influxdb
