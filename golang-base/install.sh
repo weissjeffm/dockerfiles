@@ -22,10 +22,6 @@ service postgresql restart
 
 # Run as superuser: install db, user etc.
 sudo -u postgres psql < postgres/postgres_superuser.sql
-# Run as the newly created notary testuser:
-# install db schema etc.
-sudo -u postgres PGPASSWORD=notary_test_pwd psql notary_test notary_test_user < postgres/postgres_notary.sql
-
 
 ### Setup Influx and Grafana dependencies
 apt-get -y --no-install-recommends install \
