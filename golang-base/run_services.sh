@@ -11,3 +11,10 @@ chmod -R 0750 /etc/ssl/private;
 ### Start services.
 service supervisor start
 
+# Wait for postgres.
+for i in $(seq 5); do
+   if pg_isready; then
+       break
+   fi
+   sleep 1
+done
