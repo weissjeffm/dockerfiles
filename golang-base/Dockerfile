@@ -1,4 +1,4 @@
-FROM dockerfile/ubuntu
+FROM ubuntu:14.04
 
 MAINTAINER Filip Gospodinov "filip@monetas.net"
 
