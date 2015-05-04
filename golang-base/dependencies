@@ -2,9 +2,9 @@ github.com/agl/ed25519               d2b94fd789ea21d12fac1a4443dd3a3f79cda72c
 github.com/btcsuite/btcutil          ff58d6571d21c0a8478befc038afd07b56bc0549
 github.com/BurntSushi/toml           3883ac1ce943878302255f538fce319d23226223
 github.com/golang/lint               dea130113ab8ebacb52dbce09c9a4c92951afdca
+github.com/jackc/pgx                 d46a762159f7b7c97b24c9dfacc0b985e48fa3e1
 github.com/jessevdk/go-flags         1679536dcc895411a9f5848d9a0250be7856448c
 github.com/juju/loggo                dc8e19f7c70a62a59c69c40f85b8df09ff20742c
-github.com/lib/pq                    835d5eb08da4541f26181e6958d7400da769e44b
 github.com/rcrowley/go-metrics       dee209f2455f101a5e4e593dea94872d2c62d85d
 github.com/stretchr/testify          e4ec8152c15fc46bd5056ce65997a07c7d415325
 github.com/stretchr/objx             cbeaeb16a013161a98496fad62933b1d21786672
