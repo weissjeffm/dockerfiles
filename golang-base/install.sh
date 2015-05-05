@@ -15,6 +15,10 @@ service postgresql start
 # Override it with a file that fixes that ("local all all md5" instead of "local all all peer").
 POSTGRES_CONFIG_DIR=`echo "SHOW config_file;" | sudo -u postgres psql -A -t | xargs dirname`
 cp postgres/pg_hba.conf $POSTGRES_CONFIG_DIR
+
+# Add extra config options to the standard postgresql.conf.
+cat postgres/extra.conf >> $POSTGRES_CONFIG_DIR/postgresql.conf
+
 service postgresql restart
 
 # Run as superuser: install db, user etc.
