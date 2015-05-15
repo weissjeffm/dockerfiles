@@ -2,6 +2,9 @@ FROM ubuntu:14.04
 
 MAINTAINER Filip Gospodinov "filip@monetas.net"
 
+LABEL name=java-base
+LABEL version=1
+
 ADD pom.xml ./
 
 RUN apt-get update && \

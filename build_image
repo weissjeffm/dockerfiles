@@ -1,0 +1,48 @@
+#!/bin/sh -e
+
+build_image () {
+    if [ $# -ne 1 ] || ! [ -d $1 ]; then
+        echo "error: please specify Dockerfile directory"
+        exit 1
+    fi
+
+    dockerfile=$1
+    new_version=$(git diff $(git merge-base HEAD origin/master) "$dockerfile" |
+        sed -n 's/^+LABEL version=\([0-9]\+\)$/\1/p')
+    if ! [ "$new_version" ]; then
+        echo "error: version label not updated"
+        exit 1
+    fi
+    old_version=$(git diff $(git merge-base HEAD origin/master) "$dockerfile" |
+        sed -n 's/^-LABEL version=\([0-9]\+\)$/\1/p')
+    if [ $new_version -ne $(( $old_version + 1 )) ]; then
+        echo "error: expected version label to be $(( $old_version + 1 )) but got $new_version"
+        exit 1
+    fi
+
+    tag=temporary_build_tag
+    docker build -t "$tag" "$dockerfile"
+    eval name=$(docker inspect "$tag" | awk '/"name"/ {print $2}' | head -n1)
+    name=${name%,}
+    if ! [ "$name" ]; then
+        echo "error: name label not found"
+        exit 1
+    fi
+    eval version=$(docker inspect "$tag" | awk '/"version"/ {print $2}' | head -n1)
+    if ! [ "$version" ]; then
+        echo "error: version label not found"
+        exit 1
+    fi
+    if [ $new_version -ne $version ]; then
+        echo "error: version mismatch"
+        exit 1
+    fi
+    docker tag -f "$tag" "monetas/$name:$new_version"
+    docker tag -f "$tag" "monetas/$name:latest"
+    docker rmi "$tag"
+}
+
+for file in $(git diff --name-only $(git merge-base HEAD origin/master) |
+        grep '^\(golang\|java\)-base'); do
+    build_image $(dirname $file)
+done
