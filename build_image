@@ -1,49 +1,55 @@
 #!/bin/sh -e
 
-build_image () {
-    if [ $# -ne 1 ] || ! [ -d $1 ]; then
-        echo "error: please specify Dockerfile directory"
-        exit 1
-    fi
-
+check_diff () {
     dockerfile=$1
-    new_version=$(git diff $(git merge-base HEAD origin/master) "$dockerfile" |
-        sed -n 's/^+LABEL version=\([0-9]\+\)$/\1/p')
+    diff=$(git diff $(git merge-base HEAD origin/master) "$dockerfile")
+    new_version=$(echo "$diff" | sed -n 's/^+LABEL version=\([0-9]\+\)$/\1/p')
     if ! [ "$new_version" ]; then
-        echo "error: version label not updated"
+        echo "error: version label not updated" 1>&2
         exit 1
     fi
-    old_version=$(git diff $(git merge-base HEAD origin/master) "$dockerfile" |
-        sed -n 's/^-LABEL version=\([0-9]\+\)$/\1/p')
+    old_version=$(echo "$diff" | sed -n 's/^-LABEL version=\([0-9]\+\)$/\1/p')
     if [ $new_version -ne $(( $old_version + 1 )) ]; then
-        echo "error: expected version label to be $(( $old_version + 1 )) but got $new_version"
+        echo "error: expected version label to be $(( $old_version + 1 )) but got $new_version" 1>&2
         exit 1
     fi
+    echo $new_version
+}
 
+build_image () {
+    dockerfile_dir=$1
+    expected_version=$2
     tag=temporary_build_tag
-    docker build -t "$tag" "$dockerfile"
+    docker build -t "$tag" "$dockerfile_dir" 1>&2
     eval name=$(docker inspect "$tag" | awk '/"name"/ {print $2}' | head -n1)
     name=${name%,}
     if ! [ "$name" ]; then
-        echo "error: name label not found"
+        echo "error: name label not found" 1>&2
         exit 1
     fi
     eval version=$(docker inspect "$tag" | awk '/"version"/ {print $2}' | head -n1)
     if ! [ "$version" ]; then
-        echo "error: version label not found"
+        echo "error: version label not found" 1>&2
         exit 1
     fi
-    if [ $new_version -ne $version ]; then
-        echo "error: version mismatch"
+    if [ "$expected_version" ] && [ $expected_version -ne $version ]; then
+        echo "error: version mismatch" 1>&2
         exit 1
     fi
-    docker tag -f "$tag" "monetas/$name:$new_version"
-    docker tag -f "$tag" "monetas/$name:latest"
-    docker rmi "$tag"
+    docker tag -f "$tag" "monetas/$name:$version" 1>&2
+    docker tag -f "$tag" "monetas/$name:latest" 1>&2
+    docker rmi "$tag" 1>&2
+    echo "monetas/$name:$version"
+    echo "monetas/$name:latest"
 }
 
-folders=$(git diff --name-only $(git merge-base HEAD origin/master) |
-    sed -n 's/^\(\(golang\|java\)-base\)\/.\+/\1/p' | sort -u)
+folders="golang-base java-base"
+if [ "$1" = "--check-diff" ]; then
+    folders=$(git diff --name-only $(git merge-base HEAD origin/master) |
+        sed -n 's/^\(\(golang\|java\)-base\)\/.\+/\1/p' | sort -u)
+    do_check=1
+fi
 for folder in $folders; do
-    build_image $folder
+    [ "$do_check" ] && new_version=$(check_diff "$folder/Dockerfile")
+    build_image "$folder" "$new_version"
 done
