@@ -42,7 +42,8 @@ build_image () {
     docker rmi "$tag"
 }
 
-for file in $(git diff --name-only $(git merge-base HEAD origin/master) |
-        grep '^\(golang\|java\)-base'); do
-    build_image $(dirname $file)
+folders=$(git diff --name-only $(git merge-base HEAD origin/master) |
+    sed -n 's/^\(\(golang\|java\)-base\)\/.\+/\1/p' | sort -u)
+for folder in $folders; do
+    build_image $folder
 done
