@@ -3,7 +3,7 @@ FROM ubuntu:14.04
 MAINTAINER Filip Gospodinov "filip@monetas.net"
 
 LABEL name=java-base
-LABEL version=1
+LABEL version=2
 
 ADD pom.xml ./
 
