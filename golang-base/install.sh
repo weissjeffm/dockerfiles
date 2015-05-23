@@ -11,8 +11,6 @@ apt-get install -y --no-install-recommends \
 apt-get install -y --no-install-recommends postgresql
 service postgresql start
 
-# The default pg_hba.conf forbids postgres users to connect via password.
-# Override it with a file that fixes that ("local all all md5" instead of "local all all peer").
 POSTGRES_CONFIG_DIR=`echo "SHOW config_file;" | sudo -u postgres psql -A -t | xargs dirname`
 cp postgres/pg_hba.conf $POSTGRES_CONFIG_DIR
 
