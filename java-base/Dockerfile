@@ -3,9 +3,7 @@ FROM ubuntu:14.04
 MAINTAINER Filip Gospodinov "filip@monetas.net"
 
 LABEL name=java-base
-LABEL version=4
-
-ADD build.gradle ./
+LABEL version=5
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git gradle openjdk-7-jdk software-properties-common && \
@@ -14,7 +12,5 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends libsodium13 && \
     ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.13 /usr/lib/x86_64-linux-gnu/libsodium.so && \
     apt-get autoremove
-
-RUN gradle build
 
 CMD ["bash"]
