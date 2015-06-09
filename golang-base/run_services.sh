@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 ### Workaround for an AUFS bug: https://github.com/monetas/notary/issues/234
 mkdir /etc/ssl/private-copy
