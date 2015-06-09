@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 ### Setup various packages.
 apt-get update
