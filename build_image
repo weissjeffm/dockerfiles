@@ -43,10 +43,11 @@ build_image () {
     echo "monetas/$name:latest"
 }
 
-folders="golang-base java-base"
+folders="golang-base java-base android-base"
 if [ "$1" = "--check-diff" ]; then
+    # sort result in revert mode to be sure that java-base is before android-base
     folders=$(git diff --name-only $(git merge-base HEAD origin/master) |
-        sed -n 's/^\(\(golang\|java\)-base\)\/.\+/\1/p' | sort -u)
+        sed -n 's/^\(\(golang\|java\|android\)-base\)\/.\+/\1/p' | sort -ur)
     do_check=1
 fi
 for folder in $folders; do
