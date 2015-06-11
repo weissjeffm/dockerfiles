@@ -3,7 +3,7 @@ FROM ubuntu:14.04
 MAINTAINER Filip Gospodinov "filip@monetas.net"
 
 LABEL name=golang-base
-LABEL version=11
+LABEL version=12
 
 ADD postgres ./postgres
 ADD install.sh ./

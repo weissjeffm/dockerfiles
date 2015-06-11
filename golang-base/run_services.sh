@@ -12,7 +12,7 @@ chmod -R 0750 /etc/ssl/private;
 service supervisor start
 
 # Wait for postgres.
-for i in $(seq 5); do
+for i in $(seq 15); do
    if pg_isready; then
        break
    fi
